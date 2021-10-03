@@ -10,11 +10,11 @@ namespace EventsDelegates
     //Зони відповідальності класів старайтеся зробити максимально подібно, як в JokeGenerator
     class Program
     {
-        
+
         static void Main(string[] args)
         {
             string stringFromConsole;
-            ConsoleInputHendeler_DelegateOnly hendeler = new ConsoleInputHendeler_DelegateOnly();
+            ConsoleInputHendeler_Action hendeler = new ConsoleInputHendeler_Action();
             AlphaNumericCollector alphaNumeric = new AlphaNumericCollector();
             StringCollector stringCollector = new StringCollector();
 
@@ -24,11 +24,11 @@ namespace EventsDelegates
 
 
             hendeler.AddToDelegate(Hendeler_PassToCollector);
-            while (true) 
+            while (true)
             {
                 stringFromConsole = Console.ReadLine();
 
-                if(hendeler.ContainsNumber(stringFromConsole))
+                if (hendeler.ContainsNumber(stringFromConsole))
                 {
                     hendeler.InvokeDelegate(alphaNumeric, stringFromConsole);
                 }
@@ -39,7 +39,7 @@ namespace EventsDelegates
 
                     hendeler.InvokeDelegate(stringCollector, stringFromConsole);
                 }
-            } 
+            }
         }
 
         private static void Hendeler_PassToCollector(ICollector collector, string str)
@@ -70,12 +70,39 @@ namespace EventsDelegates
         //    }
         //}
 
-        class ConsoleInputHendeler_DelegateOnly
-        {
-            public delegate void Collector(ICollector collector, string str);
-            private Collector collectorDelegate;
+        //class ConsoleInputHendeler_DelegateOnly
+        //{
+        //    public delegate void Collector(ICollector collector, string str);
+        //    private Collector collectorDelegate;
 
-            public void AddToDelegate(Collector function)
+        //    public void AddToDelegate(Collector function)
+        //    {
+        //        collectorDelegate = function;
+        //    }
+        //    public void InvokeDelegate(ICollector collector, string str)
+        //    {
+        //        collectorDelegate?.Invoke(collector, str);
+        //    }
+        //    public bool ContainsNumber(string str)
+        //    {
+        //        string[] strArray = str.Split(" ");
+        //        foreach (string s in strArray)
+        //        {
+        //            if (int.TryParse(s, out int res))
+        //            {
+        //                return true;
+        //            }
+        //        }
+
+        //        return false;
+        //    }
+        //}
+
+        class ConsoleInputHendeler_Action
+        {
+            private Action<ICollector, string> collectorDelegate;
+
+            public void AddToDelegate(Action<ICollector, string> function)
             {
                 collectorDelegate = function;
             }
@@ -99,5 +126,5 @@ namespace EventsDelegates
         }
 
 
-    }
+    }       
 }
