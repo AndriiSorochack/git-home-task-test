@@ -14,7 +14,7 @@ namespace EventsDelegates
         static void Main(string[] args)
         {
             string stringFromConsole;
-            ConsoleInputHendeler hendeler = new ConsoleInputHendeler();
+            ConsoleInputHendeler_DelegateOnly hendeler = new ConsoleInputHendeler_DelegateOnly();
             AlphaNumericCollector alphaNumeric = new AlphaNumericCollector();
             StringCollector stringCollector = new StringCollector();
 
@@ -23,21 +23,21 @@ namespace EventsDelegates
             Console.WriteLine("Пуста стрічка - кінець програми\n");
 
 
-            hendeler.PassToCollector += Hendeler_PassToCollector;
+            hendeler.AddToDelegate(Hendeler_PassToCollector);
             while (true) 
             {
                 stringFromConsole = Console.ReadLine();
 
                 if(hendeler.ContainsNumber(stringFromConsole))
                 {
-                    hendeler.InvokeEvent(alphaNumeric, stringFromConsole);
+                    hendeler.InvokeDelegate(alphaNumeric, stringFromConsole);
                 }
                 else
                 {
                     if (stringFromConsole == "")
                         break;
 
-                    hendeler.InvokeEvent(stringCollector, stringFromConsole);
+                    hendeler.InvokeDelegate(stringCollector, stringFromConsole);
                 }
             } 
         }
@@ -47,41 +47,13 @@ namespace EventsDelegates
             collector?.AddToCollection(str);
         }
 
-        class ConsoleInputHendeler
-        {
-            public delegate void Collector(ICollector collector, string str);
-            public  event Collector PassToCollector;
-            public void InvokeEvent(ICollector collector, string str)
-            {
-                PassToCollector?.Invoke(collector, str);
-            }
-            public bool ContainsNumber(string str)
-            {
-                string[] strArray = str.Split(" ");
-                foreach (string s in strArray)
-                {
-                    if (int.TryParse(s, out int res))
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        }
-
-        //class ConsoleInputHendeler_DelegateOnly
+        //class ConsoleInputHendeler
         //{
         //    public delegate void Collector(ICollector collector, string str);
-        //    private Collector collectorDelegate;
-
-        //    public void AddToDelegate(Collector function)
+        //    public  event Collector PassToCollector;
+        //    public void InvokeEvent(ICollector collector, string str)
         //    {
-        //        collectorDelegate = function;
-        //    }
-        //    public void InvokeF(ICollector collector, string str)
-        //    {
-        //        collectorDelegate?.Invoke(collector, str);          
+        //        PassToCollector?.Invoke(collector, str);
         //    }
         //    public bool ContainsNumber(string str)
         //    {
@@ -97,6 +69,34 @@ namespace EventsDelegates
         //        return false;
         //    }
         //}
+
+        class ConsoleInputHendeler_DelegateOnly
+        {
+            public delegate void Collector(ICollector collector, string str);
+            private Collector collectorDelegate;
+
+            public void AddToDelegate(Collector function)
+            {
+                collectorDelegate = function;
+            }
+            public void InvokeDelegate(ICollector collector, string str)
+            {
+                collectorDelegate?.Invoke(collector, str);
+            }
+            public bool ContainsNumber(string str)
+            {
+                string[] strArray = str.Split(" ");
+                foreach (string s in strArray)
+                {
+                    if (int.TryParse(s, out int res))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
 
 
     }
