@@ -155,14 +155,6 @@ SELECT CAST(scope_identity() AS int)
                 sqlCommand.Parameters.AddWithNullableValue("@Notes", student.Notes);
                 sqlCommand.Parameters.AddWithNullableValue("@HomeTaskAssessments", student.HomeTaskAssessments);
                 sqlCommand.Parameters.AddWithNullableValue("@Courses", student.Courses);
-
-                int identity = (int)sqlCommand.ExecuteScalar();
-                if (identity == 0)
-                {
-                    return null;
-                }
-
-                student.Id = identity;
             }
 
             return student;
@@ -177,27 +169,27 @@ SELECT CAST(scope_identity() AS int)
                 using SqlCommand sqlCommand = new SqlCommand(@"
                 UPDATE [dbo].[Students]
                    SET [Name] = @Name
-                      ,[Id] = @Id
                       ,[BirthDate] = @BirthDate
                       ,[PhoneNumber]= @PhoneNumber
                       ,[Email] = @Email
                       ,[GitHubLink] = @GitHubLink
                       ,[Notes] = @Notes
                       ,[HomeTaskAssessments] = @HomeTaskAssessments
-                      ,[Courses]) = @Courses
+                      ,[Courses] = @Courses
+                      WHERE Id = @Id
                 ",
                  connection,
                  transaction);
 
-                sqlCommand.Parameters.AddWithNullableValue("@Name", student.Name);
-                sqlCommand.Parameters.AddWithNullableValue("@Id", student.Id);
-                sqlCommand.Parameters.AddWithNullableValue("@BirthDate", student.BirthDate);
-                sqlCommand.Parameters.AddWithNullableValue("@PhoneNumber", student.PhoneNumber);
-                sqlCommand.Parameters.AddWithNullableValue("@Email", student.Email);
-                sqlCommand.Parameters.AddWithNullableValue("@GitHubLink", student.GitHubLink);
-                sqlCommand.Parameters.AddWithNullableValue("@Notes", student.Notes);
-                sqlCommand.Parameters.AddWithNullableValue("@HomeTaskAssessments", student.HomeTaskAssessments);
-                sqlCommand.Parameters.AddWithNullableValue("@Courses", student.Courses);
+                sqlCommand.Parameters.AddWithValue("@Name", student.Name);
+                sqlCommand.Parameters.AddWithValue("@Id", student.Id);
+                sqlCommand.Parameters.AddWithValue("@BirthDate", student.BirthDate);
+                sqlCommand.Parameters.AddWithValue("@PhoneNumber", student.PhoneNumber);
+                sqlCommand.Parameters.AddWithValue("@Email", student.Email);
+                sqlCommand.Parameters.AddWithValue("@GitHubLink", student.GitHubLink);
+                sqlCommand.Parameters.AddWithValue("@Notes", student.Notes);
+                sqlCommand.Parameters.AddWithValue("@HomeTaskAssessments", student.HomeTaskAssessments.ToString());
+                sqlCommand.Parameters.AddWithValue("@Courses", student.Courses.ToString());
                 sqlCommand.ExecuteNonQuery();
 
                 transaction.Commit();
