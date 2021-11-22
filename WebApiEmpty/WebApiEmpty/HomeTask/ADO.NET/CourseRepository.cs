@@ -23,13 +23,13 @@ namespace ADO.NET.EF
         {
             this.connectionString = connectionString;
             context = new UniversityContext(connectionString);
+            context.Database.EnsureCreated();
         }
 
         public Course Create(Course entity)
         {
-            context.Database.EnsureCreated();
             context.Courses.Add(entity);
-            context.SaveChanges();
+            //context.SaveChanges();
             return entity;
         }
 

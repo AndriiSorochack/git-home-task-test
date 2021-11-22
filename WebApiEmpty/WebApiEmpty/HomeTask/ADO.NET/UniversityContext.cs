@@ -17,6 +17,7 @@ namespace ADO.NET
         public DbSet<Course> Courses { get; set; }
         public DbSet<HomeTask> HomeTasks { get; set; }
         public DbSet<Student> Students { get; set; }
+        public DbSet<HomeTaskAssessment> Assessments { get; set; }
 
         private readonly IOptions<RepositoryOptions> _options;
 

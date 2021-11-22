@@ -17,7 +17,9 @@ namespace ADO.NET
         {
             this.connectionString = connectionString;
             context = new UniversityContext(connectionString);
+            context.Database.EnsureCreated();
         }
+
         public HomeTask Create(HomeTask entity)
         {
             context.Database.EnsureCreated();

@@ -1,0 +1,42 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<Models.Models.Course>
+
+<h3>
+    <a asp-action="Create" asp-controller="Course">Create</a>
+</h3>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Pass creditse</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>@item.StartDate</td>
+            <td>@item.EndDate</td>
+            <td>@item.PassCredits</td>
+            <td>
+                <a asp-controller="CourseController" asp-action="Edit">Edit</a>
+            </td>
+        </tr>
+    }
+    @*<tr>
+        <td>Centro comercial Moctezuma</td>
+        <td>Francisco Chang</td>
+        <td>Mexico</td>
+    </tr>*@
+</table>

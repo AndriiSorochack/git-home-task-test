@@ -20,24 +20,24 @@ namespace Services
 
         }
 
-        public CourseService(IRepository<Course> courseRepository,
-            IRepository<Student> studentRepository,
-            IRepository<HomeTask> homeTaskRepository)
-        {
-            _courseRepository = courseRepository;
-            _studentRepository = studentRepository;
-            _homeTaskRepository = homeTaskRepository;
-        }
         //public CourseService(IRepository<Course> courseRepository,
         //    IRepository<Student> studentRepository,
-        //    IRepository<HomeTask> homeTaskRepository,
-        //    IRepository<HomeTaskAssessment> homeTaskAssessmentRepository)
+        //    IRepository<HomeTask> homeTaskRepository)
         //{
         //    _courseRepository = courseRepository;
         //    _studentRepository = studentRepository;
         //    _homeTaskRepository = homeTaskRepository;
-        //    _homeTaskAssessmentRepository = homeTaskAssessmentRepository;
         //}
+        public CourseService(IRepository<Course> courseRepository,
+            IRepository<Student> studentRepository,
+            IRepository<HomeTask> homeTaskRepository,
+            IRepository<HomeTaskAssessment> homeTaskAssessmentRepository)
+        {
+            _courseRepository = courseRepository;
+            _studentRepository = studentRepository;
+            _homeTaskRepository = homeTaskRepository;
+            _homeTaskAssessmentRepository = homeTaskAssessmentRepository;
+        }
 
         public virtual List<Course> GetAllCourses()
         {
