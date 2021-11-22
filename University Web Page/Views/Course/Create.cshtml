@@ -1,0 +1,31 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Models.Models.Course
+
+@using (Html.BeginForm("Create", "Course", FormMethod.Post))
+{
+    <p>
+        <label>Name</label> <br />
+        @Html.TextBox("Name")
+    </p>
+
+    <p>
+        <label>Start Date</label> <br />
+        @Html.TextBox("StartDate", "", new { type = "date" })
+    </p>
+
+    <p>
+        <label>End Date</label> <br />
+        @Html.EditorFor(c => c.EndDate)
+    </p>
+}
+
+@section  scripts
+{
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
